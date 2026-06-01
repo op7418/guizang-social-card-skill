@@ -141,6 +141,23 @@ Multi-card grids must use **the same** card class for every cell, except a singl
 
 The Editorial template intentionally does not provide card classes. Editorial layouts express hierarchy through type, rules, ledger rows, and column structure — not card backgrounds. If you find yourself wanting a card on an Editorial poster, you probably picked the wrong style mode.
 
+## Text-On-Media Inversion (.on-media) — Both Templates
+
+Both seeds ship `.on-media`. Add it to the **content block that sits directly over a full-bleed photo, video frame, or dark gradient**. It re-asserts light text on every display/body type role and adds a soft text-shadow.
+
+Why it exists: every type role hard-codes `color: var(--ink)`, which beats a parent `color:#fff` on specificity. Without `.on-media`, a title over a dark photo silently renders black and becomes unreadable. See `image-overlay.md` Rule 0.
+
+| Template  | Text color on media | Rationale |
+|-----------|---------------------|-----------|
+| Editorial | paper-cream `#f5f1e8` (never pure white) | matches the M16 spec in `layout-recipes.md`; warmer, doesn't fight the photo |
+| Swiss     | pure white `#fff`   | clinical / high-contrast house style |
+
+Rules:
+
+- `.on-media` only recolors **text roles**. Accent lines (`.hr-accent`) and accent cards keep their accent color — the single-accent rule is unchanged.
+- It is the **color layer only**. Still pair with `image-overlay.md` Rule 1 (photo selection / localized tint) and Rule 2 (subject avoidance). A dark photo with no quiet zone needs the right photo or a tint, not just lighter text.
+- Hairlines under `.on-media` shift to a light alpha automatically (Editorial: paper-cream 35%; Swiss: white 45%).
+
 ## Image Containers
 
 Both templates share the same `.frame-img` system. Always pick a standard ratio class. Never write `aspect-ratio: 2592/1798` style ad-hoc ratios.

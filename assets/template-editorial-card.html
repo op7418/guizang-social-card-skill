@@ -291,6 +291,54 @@
     .poster.wide .h-xl        { font-size: 96px; }
     .poster.wide .lead        { font-size: 34px; }
 
+    /* ---------- 6b. Text-on-media contrast (.on-media) ----------
+       Use on any content block whose text sits directly over a
+       full-bleed photo, video frame, or dark gradient — i.e. a
+       container where the type role's default `color: var(--ink)`
+       would collide with a dark background and become unreadable.
+
+       Why a utility class is needed: every display/body role above
+       hard-codes `color: var(--ink)` (or an ink-rgb alpha), which has
+       higher specificity than a parent `color`. Setting `color:#fff`
+       on the wrapper alone does NOT win. `.on-media` re-asserts the
+       light values on each role and adds a soft shadow so type stays
+       legible even where the photo turns brighter.
+
+       Per M16 spec (layout-recipes.md): Editorial uses paper-cream
+       #f5f1e8, NOT pure white — warmer, doesn't fight the photo.
+       Still pair with image-overlay.md Rule 1 (selection / localized
+       tint) and Rule 2 (subject avoidance); .on-media is the color
+       layer, not a substitute for good photo selection. */
+    .on-media,
+    .on-media .kicker,
+    .on-media .h-display,
+    .on-media .h-xl,
+    .on-media .h-md,
+    .on-media .h-sub,
+    .on-media .lead,
+    .on-media .body,
+    .on-media .meta,
+    .on-media .label,
+    .on-media .pullquote {
+      color: #f5f1e8;
+    }
+    .on-media .kicker,
+    .on-media .meta,
+    .on-media .label { color: rgba(245, 241, 232, .72); }
+    .on-media .lead,
+    .on-media .body  { color: rgba(245, 241, 232, .90); }
+    .on-media .h-display,
+    .on-media .h-xl,
+    .on-media .h-md,
+    .on-media .h-sub,
+    .on-media .lead,
+    .on-media .body,
+    .on-media .pullquote {
+      text-shadow: 0 2px 18px rgba(0, 0, 0, .42);
+    }
+    /* hairline rules on media follow the paper-cream-at-alpha rule */
+    .on-media hr { border-color: rgba(245, 241, 232, .35) !important; }
+
     /* ---------- 7. Issue label + page metadata ---------- */
     .issue-row {
       display: flex;
