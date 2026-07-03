@@ -268,6 +268,53 @@
     .poster.wide .h-statement    { font-size: 156px; }
     .poster.wide .h-xl           { font-size: 104px; }
 
+    /* ---------- 6b. Text-on-media contrast (.on-media) ----------
+       Use on any content block whose text sits directly over a
+       full-bleed photo, video frame, or dark gradient — a container
+       where the type role's default `color: var(--ink)` would collide
+       with a dark background and become unreadable.
+
+       Why a utility class is needed: every display/body role below
+       hard-codes `color: var(--ink)`, which has higher specificity
+       than a parent `color`. Setting `color:#fff` on the wrapper alone
+       does NOT win. `.on-media` re-asserts light values on each role
+       and adds a soft shadow so type stays legible where the photo
+       turns brighter.
+
+       Swiss uses pure white #fff (clinical / high-contrast house
+       style), unlike Editorial's paper-cream. Still pair with
+       image-overlay.md Rule 1 (selection / localized tint) and Rule 2
+       (subject avoidance); .on-media is the color layer, not a
+       substitute for good photo selection. The single-accent rule is
+       unchanged — accent lines/cards keep their accent color. */
+    .on-media,
+    .on-media .h-hero,
+    .on-media .h-statement,
+    .on-media .h-xl,
+    .on-media .h-md,
+    .on-media .lead,
+    .on-media .body,
+    .on-media .num-mega,
+    .on-media .num-xl {
+      color: #fff;
+    }
+    .on-media .t-cat  { color: #fff; }
+    .on-media .t-meta { color: rgba(255, 255, 255, .78); }
+    .on-media .lead,
+    .on-media .body   { color: rgba(255, 255, 255, .92); }
+    .on-media .h-hero,
+    .on-media .h-statement,
+    .on-media .h-xl,
+    .on-media .h-md,
+    .on-media .lead,
+    .on-media .body,
+    .on-media .num-mega,
+    .on-media .num-xl {
+      text-shadow: 0 2px 16px rgba(0, 0, 0, .45);
+    }
+    /* hairline over media reads at white-alpha; accent rule stays accent */
+    .on-media .hr-hairline { background: rgba(255, 255, 255, .45); }
+
     /* ---------- 7. Layout primitives ---------- */
     .stack    { display: flex; flex-direction: column; }
     .row      { display: flex; flex-direction: row; }

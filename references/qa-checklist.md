@@ -96,6 +96,7 @@ Use these numbers as the first diagnosis. Multimodal inspection is still useful 
 
 Run these only for posters where text touches a photo (full-bleed cover, large image well, generated overlay). See `references/image-overlay.md`.
 
+- **Text color inverts (Rule 0): the content block over the photo carries `.on-media`** (Editorial → paper-cream, Swiss → white). No type role is left at its default `var(--ink)` over a dark background. This is the most common silent failure — verify it first.
 - Image area ≥60% of canvas → the photo passes the quiet-zone + light tests; no-mask composition was tried first; any tint is localized, image-toned, and only used if the thumbnail check fails.
 - Subject map is documented as an HTML comment next to the hero block (face / focal feature location + safe zones).
 - No display title (≥72 px) overlaps a face, hand, or key product feature.

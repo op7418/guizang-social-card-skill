@@ -1,8 +1,35 @@
 # Image Overlay & Subject Safety
 
-Two rules that govern any poster where text sits on top of an image — full-bleed background, large photo well with title bar, or generated/AI image with text overlay.
+Three rules that govern any poster where text sits on top of an image — full-bleed background, large photo well with title bar, or generated/AI image with text overlay.
 
-A composition can pass HTML linting and still be unreadable. Both rules below must clear before you ship.
+A composition can pass HTML linting and still be unreadable. All rules below must clear before you ship.
+
+## Rule 0 — Text color must invert against the media
+
+This is the most basic and most reliable lever, and the one most easily forgotten. Before worrying about photo selection or tint, make sure the **text color itself** is readable against the background it lands on.
+
+The trap: every display/body type role in both seed templates hard-codes `color: var(--ink)` (near-black). That declaration has higher CSS specificity than a `color` set on the parent wrapper — so putting `color:#fff` on the content container **does not win**, and the title silently renders black on a dark photo.
+
+The fix: add the **`.on-media`** utility class to the content block that sits over the photo. It re-asserts light text on every type role and adds a soft text-shadow.
+
+```html
+<section class="poster xhs">
+  <div class="bleed-img"><img src="assets/hero.jpg" alt=""></div>
+  <div class="scrim-bottom"></div>
+  <div class="content over on-media">   <!-- ← on-media -->
+    <p class="t-cat">Cover</p>
+    <h1 class="h-statement">标题</h1>
+  </div>
+</section>
+```
+
+Color convention (matches the M16 spec in `layout-recipes.md`):
+
+- **Editorial** → paper-cream `#f5f1e8`, never pure white. Warmer, doesn't fight the photo's tone.
+- **Swiss** → pure white `#fff`. Clinical, high-contrast house style.
+- Accent lines / accent cards keep their accent color; `.on-media` only touches text roles.
+
+`.on-media` is the **color layer**. It does not replace Rule 1 (selection / localized tint) or Rule 2 (subject avoidance) — a dark photo with no quiet zone still needs the right photo or a localized tint. But without Rule 0, even a perfectly selected photo renders an unreadable black title.
 
 ## Rule 1 — Selection first, mask only if selection fails
 
@@ -138,6 +165,7 @@ A photo that demands the full canvas is not a sign that text should fight it. It
 
 Run this for every poster that has text touching an image:
 
+- [ ] **Text color inverts against the media** — content block over a dark photo carries `.on-media` (Editorial → paper-cream, Swiss → white). No type role left at its default `var(--ink)` over a dark background.
 - [ ] Photo passes quiet-zone test (≥30% canvas low-detail band) AND light test (atmospheric, not high-saturation noon).
 - [ ] Tried no-mask composition first. Tint only added if Step 4 contrast check failed.
 - [ ] If tinted: localized (`radial-gradient` or one-sided), image-toned color (not pure black), peak alpha ≤ 0.30.
