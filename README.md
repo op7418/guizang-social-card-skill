@@ -1,4 +1,4 @@
-# Guizang Social Card Skill · 小红书图文 / 公众号封面对
+# Guizang Social Card Skill · 小红书图文 / 公众号封面对 
 
 ![GitHub stars](https://img.shields.io/github/stars/op7418/guizang-social-card-skill?style=flat-square)
 ![License](https://img.shields.io/github/license/op7418/guizang-social-card-skill?style=flat-square)
