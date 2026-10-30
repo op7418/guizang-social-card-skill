@@ -84,7 +84,25 @@ v0.13 起：git 仓库。`local-tests/` 整目录在 `.gitignore` 中，commit �
 
 仅记录"什么时候新增/变更了哪些可见资产"，不记录文风调整。
 
-### v0.15 · 2026-07-01（本轮）
+### v0.16 · 2026-10-30（本轮）
+
+主题：**接入 guizang-design 共享设计系统**。PPT、卡片、网页三个 skill 共用一套主题、字号、字体和背景特效，卡片这次先接入。视觉回归用迁移前后同一组卡片逐张比对，再由 agent 用新 skill 实做两套测试卡片验证。
+
+**新增**
+- `scripts/render.mjs`：一条命令出图。按页面实际用字把字体子集化内置、等背景定格和图标就绪、按画板尺寸截图并核对尺寸，取代每次现写的 `render.cjs`。需要先在 skill 目录 `npm install`。
+- `scripts/gz-theme.mjs`：受约束的品牌主题生成。用户给品牌色或 logo 主色时用它，不再拒绝品牌色，也不允许直接用原色。
+- `scripts/gz-fonts.mjs`：字体子集化内置；`add` 子命令登记本机商业字体，出图时内置、不上传。
+- `references/gz-components.md`：三个 skill 共用的组件写法。
+
+**修改**
+- 两份种子模板的主题、字号、字体、背景特效换成设计系统生成的 `GZ:*` 区块，主题改由 `<html data-theme>` 切换（Swiss 旧的 `data-accent` 仍有效）。
+- Editorial 背景改用共享 inkflow：原版 WebGL 没有预乘 alpha，纸色被冲成接近纯白，现在恢复米色纸张和墨流晕染。
+- 强调色小字统一用对比度达标的 `--accent-ink`，大字用 `--accent-display`；柠檬黄等浅色主题的强调文字不再看不清。
+- 中文不用斜体：pullquote / callout 去掉 italic。
+- `validate-social-deck.mjs`：字号下限与设计系统一致；风格优先按 `data-family` 判断（修好 Swiss 被误判成 Editorial）；配对预览里的副本不重复校验。
+- 公众号配对预览按实际宽度排版，不再被裁。
+
+### v0.15 · 2026-07-01
 
 主题：**Live Photo 从一次测试能力收口成 Skill 规则**。本轮把两天聊天里关于平台限制、拼图版式、长视频处理、品类判断、发布路径和执行失误的结论写回文档，并补上文档测试。
 

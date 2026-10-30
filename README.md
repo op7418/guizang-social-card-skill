@@ -69,7 +69,7 @@ npx skills add https://github.com/op7418/guizang-social-card-skill --skill guiza
 - 🧰 **截图美化资产**:9 张 WebP 真实材质背景(Editorial 5 / Swiss 4),配套 `.frame-shot` / `.device-browser` / `.device-phone` 工具类
 - 🗺 **地图组件**:MapLibre + OSM 真实瓦片,支持多 pin + 连线,适合旅行攻略
 - ✅ **校验脚本**:`validate-social-deck.mjs` 自动检测溢出、字号上限、4 横带密度、footer 碰撞
-- 📄 **单文件 HTML + Playwright 渲染**:不需要前端构建链,`node render.mjs` 直接出 PNG
+- 📄 **单文件 HTML + Playwright 渲染**:不需要前端构建链,`node scripts/render.mjs` 直接出 PNG
 
 ## Live Photo 效果与版式
 
@@ -198,10 +198,10 @@ git clone https://github.com/op7418/guizang-social-card-skill.git ~/.claude/skil
 Skill 本身是结构化工作流,Agent 会按 7 步走:
 
 1. **Intake** — 抓 4 件事:目标平台 / 风格 / 内容素材 / 用户图。无图时一次性给 A/B/C 三选(自己拍图 / AI 生图 / 网络取图),不二次劝导
-2. **Style & Theme** — 选 Editorial 还是 Swiss,再从 10 套预设里选主题色。不允许自定义 hex
+2. **Style & Theme** — 选 Editorial 还是 Swiss,再从 10 套预设里选主题色。不允许随手写 hex,品牌色走受约束生成
 3. **Layout Selection** — 根据内容结构从 28 个版式骨架里挑、粘、改文案。Editorial 16 个 / Swiss 12 个
 4. **Asset Prep** — 取图(Unsplash / Pexels / Flickr CC / Wallhaven / 直接搜索),落本地 + 写 `SOURCES.md`;问用户要不要标来源
-5. **Compose & Render** — 拷种子模板 → 替换 `<!-- POSTERS_HERE -->` → `node render.mjs`
+5. **Compose & Render** — 拷种子模板 → 替换 `<!-- POSTERS_HERE -->` → `node scripts/render.mjs <任务目录>`
 6. **Deliver & Review** — 先把 PNG 给用户看,询问"你自己看还是我先帮你跑 validator",默认不自动核查
 7. **Iterate** — 用户提反馈,改 inline 样式或 swap 版式 / 替图,重渲
 
@@ -231,7 +231,7 @@ node validate-social-deck.mjs path/to/task-dir
 
 ## 主题色预设
 
-从 [`references/theme-presets.md`](./references/theme-presets.md) 里选一套——**不允许自定义 hex 值**,保护美学比给自由更重要。
+从 [`references/theme-presets.md`](./references/theme-presets.md) 里选一套——**不允许随手写 hex 值**,保护美学比给自由更重要。所有主题的文字色、线条色和强调色小字都按同一套对比度规则(WCAG + APCA)算出来。
 
 ### Editorial 6 套
 
@@ -253,7 +253,20 @@ node validate-social-deck.mjs path/to/task-dir
 | 🟢 **柠檬绿 Lemon Green** | `#C5E803` | 生态、健康、Z 世代、绿色品牌 |
 | 🟠 **安全橙 Safety Orange** | `#FF6B35` | 警示、新闻、工业、活力主题 |
 
-切主题只需替换种子模板的 `<section class="poster" data-theme="...">` 属性,所有 CSS 走 `var(--...)`。
+切主题只需把种子模板第一行 `<html data-theme="…">` 改成主题 id,全部主题都已内置在模板里。瑞士风旧的 `data-accent="…"` 写法仍然有效。
+
+用户给了品牌色或 logo 主色时,运行 `node scripts/gz-theme.mjs brand "#FF2442" --family magazine`(瑞士风用 `--family swiss`),把输出的主题贴进页面。脚本会把品牌色收进这套风格允许的明度和彩度范围,达不到可读性要求就拒绝,这时回到预设。
+
+## 出图
+
+第一次使用先在 skill 目录装依赖:
+
+```bash
+npm install
+node scripts/render.mjs path/to/task-dir
+```
+
+渲染脚本会按页面实际用到的字把字体子集化内置进 HTML(首次会下载字体到本机缓存),等背景定格、图标就绪后,按画板原尺寸把每张卡片截成 `output/<id>.png`,并核对尺寸。本机登记的商业字体(`node scripts/gz-fonts.mjs add …`)也会内置,不会上传。
 
 ## 目录结构
 
@@ -324,7 +337,7 @@ guizang-social-card-skill/
 ## FAQ
 
 **可以批量出图吗?**
-可以。一个 task 目录下的 `index.html` 包含多个 `.poster`,`node render.mjs` 会逐个截 PNG。一次出小红书 3-9 张组图很常见。
+可以。一个 task 目录下的 `index.html` 包含多个 `.poster`,`node scripts/render.mjs` 会逐个截 PNG。一次出小红书 3-9 张组图很常见。
 
 **为什么不允许自定义颜色?**
 和 PPT skill 同样的理由——这个 Skill 的核心价值是稳定产出。自由选色会破坏整体风格,只允许从 10 套预设里挑。
@@ -350,7 +363,7 @@ Bug、排版问题、新版式需求——欢迎开 Issue 或 PR。改动请优�
 
 - 改种子模板时,同步更新 `references/components.md` 的对照表(字号 / 字距 / 字重)
 - 新增版式时,在 `references/layout-recipes.md` 加完整 recipe(文案上限 + minimum density)
-- 新增主题色时,同步更新种子模板的 `[data-theme="..."]` 块 + `references/theme-presets.md`
+- 主题、字号、字体和背景特效来自共享设计系统,模板里 `GZ:FONTS` / `GZ:TOKENS` / `GZ:EFFECTS` 区块、`theme-presets.md` 的 `GZ:THEMES` 区块和 `scripts/gz-*.mjs`、`scripts/render.mjs` 是生成的,不要手改;新主题色或字号调整请提 Issue
 - 新增 Swiss 规则时,同步更新 `validate-social-deck.mjs` 的对应规则
 - 踩过的坑写到 `references/qa-checklist.md`
 - 测试与 demo 一律放在 `local-tests/` 下,不要污染 skill 根目录

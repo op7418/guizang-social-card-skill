@@ -27,3 +27,7 @@ __pycache__/
 # Editor / OS
 .vscode/
 .idea/
+
+# design-system render / visual test temp files
+.render-*.html
+.gz-visual-*/
