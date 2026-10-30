@@ -42,9 +42,9 @@ Paste the printed `[data-theme="brand"]{…}` at the end of the page `<style>` a
 | 🖋 Ink Classic (default) | `ink-classic` | `#f1efea` | `#0a0a0b` | `#111111` | `#111111` | `#f1efea` | 12.3 / 91 |
 | 🌊 Indigo Porcelain | `indigo-porcelain` | `#f1f3f5` | `#0a1f3d` | `#315d93` | `#315d93` | `#f1f3f5` | 9.3 / 87 |
 | 🌿 Forest Ink | `forest-ink` | `#f5f1e8` | `#1a2e1f` | `#2e6b4f` | `#2e6b4f` | `#f5f1e8` | 8.0 / 83 |
-| 🍂 Kraft Paper | `kraft-paper` | `#eedfc7` | `#2a1e13` | `#9b5a2e` | `#935326` | `#eedfc7` | 8.1 / 77 |
-| 🌙 Dune | `dune` | `#f0e6d2` | `#1f1a14` | `#8f7650` | `#7b633e` | `#f0e6d2` | 9.2 / 82 |
-| 🌑 Midnight Ink | `midnight-ink` | `#0e0d0c` | `#ece2cf` | `#d4a04a` | `#dea954` | `#0e0d0c` | 12.2 / 76 |
+| 🍂 Kraft Paper | `kraft-paper` | `#eedfc7` | `#2a1e13` | `#9b5a2e` | `#804212` | `#eedfc7` | 8.1 / 77 |
+| 🌙 Dune | `dune` | `#f0e6d2` | `#1f1a14` | `#8f7650` | `#705833` | `#f0e6d2` | 9.2 / 82 |
+| 🌑 Midnight Ink | `midnight-ink` | `#0e0d0c` | `#ece2cf` | `#d4a04a` | `#e0ab56` | `#0e0d0c` | 12.2 / 76 |
 
 ### Swiss palette values
 

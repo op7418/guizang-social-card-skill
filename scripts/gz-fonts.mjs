@@ -1,12 +1,11 @@
 #!/usr/bin/env node
-// 歸藏设计系统 · 字体工具（guizang-design v0.1.0 生成，不要手改；依赖 subset-font）
+// 歸藏设计系统 · 字体工具（guizang-design v0.1.0 生成，不要手改；内置字体时依赖 subset-font）
 import { createHash } from 'node:crypto'
 import { existsSync } from 'node:fs'
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import subsetFont from 'subset-font'
 
 const FONTS_DIR = (() => { try { return fileURLToPath(new URL('../fonts/', import.meta.url)) } catch { return '' } })()
 const MANIFEST_PATH = join(FONTS_DIR, 'manifest.json')
@@ -223,6 +222,8 @@ export async function embedCss(ids, text, { log } = {}) {
   for (const id of ids) {
     const font = await getFont(id)
     for (const file of await fetchFont(id, { log })) {
+      // 只有内置字体时才需要 subset-font：在线链接、列表等用法不装依赖也能跑
+      const { default: subsetFont } = await import('subset-font')
       const woff2 = await subsetFont(file.buffer, chars, { targetFormat: 'woff2' })
       const [lo, hi] = file.weight
       rules.push(
