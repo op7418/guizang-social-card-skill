@@ -192,10 +192,12 @@ Do not write HTML from scratch. Pick one seed template based on the style mode c
 
 The seed already wires up: font loading, theme tokens, all three poster sizes (`.poster.xhs` / `.poster.square` / `.poster.wide`), the pair-preview frame, grain/background layers, and all class definitions referenced by the layout recipes.
 
-Set the theme/accent on the `<html>` element:
+Set the palette with `data-theme` on the `<html>` element (all palettes are inlined in the template's `GZ:TOKENS` block — never edit that block or write hex values in posters; see `references/theme-presets.md` for the semantic colour variables):
 
 - Editorial: `<html data-theme="ink-classic | indigo-porcelain | forest-ink | kraft-paper | dune | midnight-ink">`.
-- Swiss: `<html data-accent="ikb | lemon-yellow | lemon-green | safety-orange">`.
+- Swiss: `<html data-theme="ikb | lemon | lemon-green | safety-orange">` (the old `data-accent="… | lemon-yellow | …"` still works).
+- The user gave a brand or logo colour: run `node <SKILL_ROOT>/scripts/gz-theme.mjs brand "#4D6BFE" --family magazine` (or `--family swiss`), paste the printed `[data-theme="brand"]{…}` at the end of the page `<style>`, and set `data-theme="brand"`. Never use the raw colour; if the script refuses, fall back to a preset.
+- Chinese text is never italic (Chinese fonts have no italic glyphs; the browser slants them artificially). Italic belongs to Latin text set in Playfair Display (`.h-sub`, `em` inside an English line).
 
 Replace the single placeholder poster after `<!-- POSTERS_HERE -->` with one `<section class="poster ...">` block per page, each carrying the HTML skeleton from a chosen Layout Recipe (M01-M16 for Editorial, S01-S12 for Swiss). Never load the wrong template's class system: Editorial recipes assume serif display + ledger/marginalia/pipeline-v; Swiss recipes assume Inter + card-fills + matrix/h-bar/kpi-tower. Mixing them silently breaks the layout.
 
@@ -206,9 +208,9 @@ Default implementation pattern:
 - Create a task folder under `local-tests/<slug>/` by default, or inside the user-requested output folder. Never put generated task folders, rendered images, MOV files, `.pvt` packages, or downloaded sources in the skill root next to `SKILL.md`.
 - Put source images in `assets/`.
 - Start from the seed template copied in Step 4.5, not a blank file. Prefer changing only the `<!-- POSTERS_HERE -->` region page-to-page. If a task needs custom layout CSS, add one clearly named task-scoped block in the copied file and keep semantic defaults reset (`figure { margin:0; }`, no browser-default spacing surprises).
-- Use Playwright or a browser screenshot tool to export each `.poster` or `.cover` node.
-- Save rendered images in `output/`.
-- Verify dimensions and inspect the rendered PNGs.
+- Install dependencies once in the skill root: `npm install` (Playwright for rendering and validation, subset-font for font embedding).
+- Render with `node <SKILL_ROOT>/scripts/render.mjs <task-dir>`. It embeds the fonts the page actually uses (offline, repeatable), waits for the frozen background and icons, writes `output/<poster-id>.png` plus the pair preview, and fails if an image is not its board size. User-registered local fonts (`node <SKILL_ROOT>/scripts/gz-fonts.mjs add …`) are embedded too and never leave the machine.
+- Inspect the rendered PNGs.
 - Keep `node validate-social-deck.mjs <task-dir>` available for auto-check passes. It checks overflow (R1), footer collision (R2), Swiss bold display (R3), minimum font size (R4), 4-band density (R5), `.h-xl` line caps (R6), browser-default figure margin drift (R7), visual bounds / bottom whitespace (R8), and title-to-content gaps (R9). Exit code 1 on any FAIL — fix before final delivery when auto-check is requested. WARN is advisory but read it.
 
 Live Photo branch:

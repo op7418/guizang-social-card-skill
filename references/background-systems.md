@@ -67,25 +67,17 @@ If screenshots are the main evidence, the background should support them rather 
 
 ## WebGL Helper
 
-The skill includes `assets/magazine-bg-webgl.js`, a small helper for a deterministic ink-flow background:
+The Editorial seed template already ships the ink-flow background (the shared guizang-design effects runtime, inlined in its `GZ:EFFECTS` block). Every `<canvas class="mag-bg">` inside a poster is mounted automatically, coloured from the current theme (`--ink` / `--paper` / `--accent`) and frozen at a fixed time, so repeated renders are identical. Nothing to copy or call.
+
+Per-canvas options are data attributes:
 
 ```html
-<canvas class="mag-bg" data-seed="workbuddy"></canvas>
-<script src="assets/magazine-bg-webgl.js"></script>
-<script>
-  document.querySelectorAll(".mag-bg").forEach((canvas, i) => {
-    MagazineBg.mount(canvas, {
-      ink: [26, 46, 31],
-      paper: [245, 241, 232],
-      accent: [46, 107, 79],
-      strength: canvas.closest(".hero") ? 0.62 : 0.28,
-      frozenTime: 2.4 + i * 0.37
-    });
-  });
-</script>
+<canvas class="mag-bg"></canvas>                                  <!-- default: strength .32, frozen at 12.5s -->
+<canvas class="mag-bg" data-strength=".62"></canvas>              <!-- cover, divider, pull quote, closing -->
+<canvas class="mag-bg" data-strength=".28" data-frozen="2.77"></canvas>  <!-- vary the pattern between posters -->
 ```
 
-For screenshot exports, prefer `frozenTime` so repeated renders look stable.
+Use stronger values (.5–.62) on cover, divider, pull-quote, sparse thesis and closing posters, subtle values (.24–.32) on screenshot, ledger, checklist and evidence posters. Vary `data-frozen` between posters (for example `2.4 + i * 0.37`) so a carousel does not repeat the same pattern.
 
 ## 2D Fallback
 

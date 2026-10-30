@@ -74,16 +74,17 @@ const style = styleOverride || await page.evaluate(() => {
 const sections = await page.$$("section.poster");
 const report = [];
 
-// "Obviously too small" floors — below these, text becomes unreadable at phone size.
-// Seeds use 26-28px body, 30-32px lead — those are fine. Anything 4+px below is suspect.
+// 字号下限：和 guizang-design tokens/media.json 的 card.floors 一致（正文 24、小字 20、图注 / 标签 / meta 18）。
+// 低于下限判 FAIL；导语没有 token 下限，低于 26 只给 WARN。
 const MIN_FONT = {
-  body: 22,
+  body: 24,
   lead: 26,
   caption: 18,
   meta: 18,
   cellTitle: 20,
   numAnnotation: 20,
 };
+const WARN_ONLY = new Set(["lead"]);
 
 const HXL_CAPS = {
   xhs:    { maxLines: 2, maxChars: 8 },
@@ -323,7 +324,8 @@ for (const s of sections) {
     return out;
   }, MIN_FONT);
   for (const t of textChecks) {
-    warns.push({ rule: "R4", msg: `${t.role} "${t.text}" at ${t.size}px < ${t.min}px floor`, fix: "cut copy instead of shrinking type (components.md Minimum Readable Sizes)" });
+    const item = { rule: "R4", msg: `${t.role} "${t.text}" at ${t.size}px < ${t.min}px floor`, fix: "cut copy instead of shrinking type (components.md Minimum Readable Sizes)" };
+    (WARN_ONLY.has(t.role) ? warns : fails).push(item);
   }
 
   // R7 figure margin drift — catches browser-default 40px figure margins on custom media blocks.

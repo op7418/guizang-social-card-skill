@@ -7,7 +7,7 @@ Shared component spec for both seed templates. Read this when you need to look u
 Editorial Magazine x E-ink (`template-editorial-card.html`):
 
 - `--serif-zh`: Noto Serif SC, Songti SC, STSong — display titles.
-- `--serif-en`: Playfair Display, italic for subtitles and pull quotes.
+- `--serif-en`: Playfair Display, italic for English subtitles and English words inside pull quotes. Chinese text is never italic.
 - `--sans-zh`: Noto Sans SC, PingFang SC — utility text and fallback; body and lead default to serif-zh in Editorial.
 - `--sans-en`: Inter — Latin body in mixed content.
 - `--mono`: IBM Plex Mono — labels, page metadata, issue strip, captions.

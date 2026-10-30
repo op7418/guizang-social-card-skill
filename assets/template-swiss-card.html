@@ -1,12 +1,14 @@
 <!doctype html>
-<html lang="zh-CN" data-accent="ikb">
+<html lang="zh-CN" data-theme="ikb" data-family="swiss" data-medium="card">
 <head>
   <meta charset="utf-8">
   <title>[必填] 替换为社交卡组标题 · Social Card Set</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Noto+Sans+SC:wght@200;300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <!-- GZ:FONTS:START · 字体由 guizang-design 字体清单生成；本机内置用 node scripts/fonts.mjs embed -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" data-gz-fonts="inter noto-sans-sc jetbrains-mono" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans+SC:wght@100..900&family=JetBrains+Mono:wght@100..800&display=swap">
+<!-- GZ:FONTS:END -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <style>
     /* =========================================================
@@ -18,7 +20,7 @@
          .poster.wide     2100× 900  (21:9  微信主封面)
          .pair-preview                       21:9 + 1:1 配对预览
 
-       Accent switching via <html data-accent="…">:
+       Accent switching via <html data-theme="…">:
          ikb (Klein Blue) | lemon-yellow | lemon-green | safety-orange
 
        Fill posters where marked <!-- POSTERS_HERE -->.
@@ -26,69 +28,545 @@
        references/layout-recipes.md.
        ========================================================= */
 
-    /* ---------- 1. Accent palettes (4 mutually exclusive) ---------- */
-    :root,
-    [data-accent="ikb"] {
-      --paper: #fafaf8;
-      --ink: #0a0a0a;
-      --grey-1: #f0f0ee;
-      --grey-2: #d4d4d2;
-      --grey-3: #737373;
-      --accent: #002FA7;
-      --accent-on: #ffffff;
-    }
-    [data-accent="lemon-yellow"] {
-      --paper: #fafaf8;
-      --ink: #0a0a0a;
-      --grey-1: #f0f0ee;
-      --grey-2: #d4d4d2;
-      --grey-3: #737373;
-      --accent: #FFD500;
-      --accent-on: #0a0a0a;
-    }
-    [data-accent="lemon-green"] {
-      --paper: #fafaf8;
-      --ink: #0a0a0a;
-      --grey-1: #f0f0ee;
-      --grey-2: #d4d4d2;
-      --grey-3: #737373;
-      --accent: #C5E803;
-      --accent-on: #0a0a0a;
-    }
-    [data-accent="safety-orange"] {
-      --paper: #fafaf8;
-      --ink: #0a0a0a;
-      --grey-1: #f0f0ee;
-      --grey-2: #d4d4d2;
-      --grey-3: #737373;
-      --accent: #FF6B35;
-      --accent-on: #ffffff;
-    }
+/* GZ:TOKENS:START · guizang-design v0.1.0 生成，不要手改；改设计请改 guizang-design 后运行 scripts/sync-skill.mjs */
+:root{
+  --font-display:'Inter','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif;
+  --font-sans:'Inter','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono','Noto Sans SC',ui-monospace,'SF Mono',Menlo,monospace;
+  --sp-1:2px;
+  --sp-2:4px;
+  --sp-3:8px;
+  --sp-4:12px;
+  --sp-5:16px;
+  --sp-6:24px;
+  --sp-7:32px;
+  --sp-8:40px;
+  --sp-9:48px;
+  --sp-10:64px;
+  --sp-11:80px;
+  --sp-12:96px;
+  --sp-13:160px;
+  --radius-none:0px;
+  --radius-xs:0px;
+  --radius-sm:4px;
+  --radius-md:10px;
+  --radius-pill:999px;
+  --ease-standard:cubic-bezier(.2,0,.38,.9);
+  --ease-expressive:cubic-bezier(.4,.14,.3,1);
+  --ease-entrance:cubic-bezier(0,0,.3,1);
+  --ease-entrance-standard:cubic-bezier(0,0,.38,.9);
+  --ease-editorial:cubic-bezier(.22,1,.36,1);
+  --ease-page:cubic-bezier(.77,0,.175,1);
+  --dur-fast-1:70ms;
+  --dur-fast-2:110ms;
+  --dur-moderate-1:150ms;
+  --dur-moderate-2:240ms;
+  --dur-slow-1:400ms;
+  --dur-slow-2:700ms;
+  --dur-page:900ms;
+  --stagger-tight:70ms;
+  --stagger-base:100ms;
+  --stagger-loose:160ms;
+  --move-sm:8px;
+  --move-md:16px;
+  --move-lg:24px;
+  --paper:#fafaf8;
+  --paper-2:#f0f0ee;
+  --ink:#0a0a0a;
+  --muted:#737373;
+  --grey-1:#f0f0ee;
+  --grey-2:#d4d4d2;
+  --grey-3:#737373;
+  --accent:#002FA7;
+  --accent-on:#ffffff;
+  --accent-ink:#002FA7;
+  --accent-bright:#5B7BFF;
+  --accent-deep:#001d6b;
+  --accent-display:#002FA7;
+  --accent-ink-inverse:#96b0ff;
+  --accent-soft:#d5deef;
+  --text-primary:#0a0a0a;
+  --text-body:#252524;
+  --text-secondary:#525252;
+  --text-helper:#737373;
+  --text-placeholder:#a3a3a3;
+  --text-on-color:#ffffff;
+  --line-strong:#a3a3a3;
+  --line:#d4d4d2;
+  --line-subtle:#e0e0e0;
+  --ink-rgb:10,10,10;
+  --paper-rgb:250,250,248;
+  --accent-rgb:0,47,167;
+  --accent-on-rgb:255,255,255;
+  color-scheme:light;
+}
+[data-theme="ikb"],[data-accent="ikb"]{
+  --paper:#fafaf8;
+  --paper-2:#f0f0ee;
+  --ink:#0a0a0a;
+  --muted:#737373;
+  --grey-1:#f0f0ee;
+  --grey-2:#d4d4d2;
+  --grey-3:#737373;
+  --accent:#002FA7;
+  --accent-on:#ffffff;
+  --accent-ink:#002FA7;
+  --accent-bright:#5B7BFF;
+  --accent-deep:#001d6b;
+  --accent-display:#002FA7;
+  --accent-ink-inverse:#96b0ff;
+  --accent-soft:#d5deef;
+  --text-primary:#0a0a0a;
+  --text-body:#252524;
+  --text-secondary:#525252;
+  --text-helper:#737373;
+  --text-placeholder:#a3a3a3;
+  --text-on-color:#ffffff;
+  --line-strong:#a3a3a3;
+  --line:#d4d4d2;
+  --line-subtle:#e0e0e0;
+  --ink-rgb:10,10,10;
+  --paper-rgb:250,250,248;
+  --accent-rgb:0,47,167;
+  --accent-on-rgb:255,255,255;
+  color-scheme:light;
+}
+[data-theme="lemon"],[data-accent="lemon-yellow"]{
+  --paper:#fafaf8;
+  --paper-2:#f0f0ee;
+  --ink:#0a0a0a;
+  --muted:#737373;
+  --grey-1:#f0f0ee;
+  --grey-2:#d4d4d2;
+  --grey-3:#737373;
+  --accent:#FFD500;
+  --accent-on:#0a0a0a;
+  --accent-ink:#7a5f00;
+  --accent-bright:#FFE34D;
+  --accent-deep:#5e4900;
+  --accent-display:#7a5f00;
+  --accent-ink-inverse:#FFE34D;
+  --accent-soft:#fbf6e1;
+  --text-primary:#0a0a0a;
+  --text-body:#252524;
+  --text-secondary:#525252;
+  --text-helper:#737373;
+  --text-placeholder:#a3a3a3;
+  --text-on-color:#0a0a0a;
+  --line-strong:#a3a3a3;
+  --line:#d4d4d2;
+  --line-subtle:#e0e0e0;
+  --ink-rgb:10,10,10;
+  --paper-rgb:250,250,248;
+  --accent-rgb:255,213,0;
+  --accent-on-rgb:10,10,10;
+  color-scheme:light;
+}
+[data-theme="lemon-green"],[data-accent="lemon-green"]{
+  --paper:#fafaf8;
+  --paper-2:#f0f0ee;
+  --ink:#0a0a0a;
+  --muted:#737373;
+  --grey-1:#f0f0ee;
+  --grey-2:#d4d4d2;
+  --grey-3:#737373;
+  --accent:#C5E803;
+  --accent-on:#0a0a0a;
+  --accent-ink:#4a6400;
+  --accent-bright:#D4F040;
+  --accent-deep:#3a5000;
+  --accent-display:#4a6400;
+  --accent-ink-inverse:#D4F040;
+  --accent-soft:#f2f8e1;
+  --text-primary:#0a0a0a;
+  --text-body:#252524;
+  --text-secondary:#525252;
+  --text-helper:#737373;
+  --text-placeholder:#a3a3a3;
+  --text-on-color:#0a0a0a;
+  --line-strong:#a3a3a3;
+  --line:#d4d4d2;
+  --line-subtle:#e0e0e0;
+  --ink-rgb:10,10,10;
+  --paper-rgb:250,250,248;
+  --accent-rgb:197,232,3;
+  --accent-on-rgb:10,10,10;
+  color-scheme:light;
+}
+[data-theme="safety-orange"],[data-accent="safety-orange"]{
+  --paper:#fafaf8;
+  --paper-2:#f0f0ee;
+  --ink:#0a0a0a;
+  --muted:#737373;
+  --grey-1:#f0f0ee;
+  --grey-2:#d4d4d2;
+  --grey-3:#737373;
+  --accent:#FF6B35;
+  --accent-on:#ffffff;
+  --accent-ink:#c2410c;
+  --accent-bright:#FF9A6C;
+  --accent-deep:#9a3409;
+  --accent-display:#FF6B35;
+  --accent-ink-inverse:#FF9A6C;
+  --accent-soft:#fee8de;
+  --text-primary:#0a0a0a;
+  --text-body:#252524;
+  --text-secondary:#525252;
+  --text-helper:#737373;
+  --text-placeholder:#a3a3a3;
+  --text-on-color:#ffffff;
+  --line-strong:#a3a3a3;
+  --line:#d4d4d2;
+  --line-subtle:#e0e0e0;
+  --ink-rgb:10,10,10;
+  --paper-rgb:250,250,248;
+  --accent-rgb:255,107,53;
+  --accent-on-rgb:255,255,255;
+  color-scheme:light;
+}
 
-    /* ---------- 2. Typography stack ---------- */
-    :root {
-      --sans:    "Inter", "Helvetica Neue", Helvetica, "Noto Sans SC",
-                 -apple-system, "PingFang SC", "Microsoft YaHei UI", sans-serif;
-      --sans-zh: "Noto Sans SC", -apple-system, "PingFang SC",
-                 "Microsoft YaHei UI", "Inter", sans-serif;
-      --mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
-    }
+:root{
+  --fs-display:168px;
+  --fw-display:200;
+  --lh-display:1.02;
+  --ls-display:-.02em;
+  --ff-display:var(--font-display);
+  --fst-display:normal;
+  --tt-display:none;
+  --fs-title:96px;
+  --fw-title:300;
+  --lh-title:1.08;
+  --ls-title:-.01em;
+  --ff-title:var(--font-display);
+  --fst-title:normal;
+  --tt-title:none;
+  --fs-heading:56px;
+  --fw-heading:400;
+  --lh-heading:1.18;
+  --ls-heading:0;
+  --ff-heading:var(--font-sans);
+  --fst-heading:normal;
+  --tt-heading:none;
+  --fs-lead:30px;
+  --fw-lead:400;
+  --lh-lead:1.55;
+  --ls-lead:0;
+  --ff-lead:var(--font-sans);
+  --fst-lead:normal;
+  --tt-lead:none;
+  --fs-body:26px;
+  --fw-body:400;
+  --lh-body:1.6;
+  --ls-body:0;
+  --ff-body:var(--font-sans);
+  --fst-body:normal;
+  --tt-body:none;
+  --fs-small:22px;
+  --fw-small:400;
+  --lh-small:1.3;
+  --ls-small:0;
+  --ff-small:var(--font-sans);
+  --fst-small:normal;
+  --tt-small:none;
+  --fs-caption:18px;
+  --fw-caption:500;
+  --lh-caption:1.3;
+  --ls-caption:.12em;
+  --ff-caption:var(--font-mono);
+  --fst-caption:normal;
+  --tt-caption:uppercase;
+  --fs-label:22px;
+  --fw-label:600;
+  --lh-label:1.3;
+  --ls-label:.08em;
+  --ff-label:var(--font-sans);
+  --fst-label:normal;
+  --tt-label:uppercase;
+  --fs-meta:20px;
+  --fw-meta:500;
+  --lh-meta:1.3;
+  --ls-meta:.14em;
+  --ff-meta:var(--font-mono);
+  --fst-meta:normal;
+  --tt-meta:uppercase;
+  --fs-num-xl:168px;
+  --fw-num-xl:200;
+  --lh-num-xl:0.92;
+  --ls-num-xl:-.03em;
+  --ff-num-xl:var(--font-display);
+  --fst-num-xl:normal;
+  --tt-num-xl:none;
+  --fs-num-l:120px;
+  --fw-num-l:200;
+  --lh-num-l:0.96;
+  --ls-num-l:-.02em;
+  --ff-num-l:var(--font-display);
+  --fst-num-l:normal;
+  --tt-num-l:none;
+  --fs-num-m:96px;
+  --fw-num-m:200;
+  --lh-num-m:1;
+  --ls-num-m:-.02em;
+  --ff-num-m:var(--font-display);
+  --fst-num-m:normal;
+  --tt-num-m:none;
+  --fs-display-zh:168px;
+  --fw-display-zh:200;
+  --lh-display-zh:1.02;
+  --ls-display-zh:-.02em;
+  --ff-display-zh:var(--font-display);
+  --fst-display-zh:normal;
+  --tt-display-zh:none;
+  --fs-title-zh:96px;
+  --fw-title-zh:300;
+  --lh-title-zh:1.08;
+  --ls-title-zh:-.01em;
+  --ff-title-zh:var(--font-display);
+  --fst-title-zh:normal;
+  --tt-title-zh:none;
+  --fs-subhead:56px;
+  --fw-subhead:400;
+  --lh-subhead:1.18;
+  --ls-subhead:0;
+  --ff-subhead:var(--font-sans);
+  --fst-subhead:normal;
+  --tt-subhead:none;
+  --fs-quote:56px;
+  --fw-quote:400;
+  --lh-quote:1.18;
+  --ls-quote:0;
+  --ff-quote:var(--font-sans);
+  --fst-quote:normal;
+  --tt-quote:none;
+}
+:root,[data-board="xhs"]{
+  --board-w:1080px;
+  --board-h:1440px;
+  --canvas-padding:96px 80px;
+}
+[data-board="square"]{
+  --board-w:1080px;
+  --board-h:1080px;
+  --canvas-padding:80px;
+  --fs-display:180px;
+  --fs-title:88px;
+  --fs-num-xl:168px;
+  --fs-num-l:112px;
+}
+[data-board="wide"]{
+  --board-w:2100px;
+  --board-h:900px;
+  --canvas-padding:80px 160px;
+  --fs-display:200px;
+  --fs-title:104px;
+  --fs-num-xl:200px;
+  --fs-num-l:144px;
+}
+.gz-t-display{font-family:var(--ff-display);font-size:var(--fs-display);font-weight:var(--fw-display);line-height:var(--lh-display);letter-spacing:var(--ls-display);font-style:var(--fst-display);text-transform:var(--tt-display)}
+.gz-t-title{font-family:var(--ff-title);font-size:var(--fs-title);font-weight:var(--fw-title);line-height:var(--lh-title);letter-spacing:var(--ls-title);font-style:var(--fst-title);text-transform:var(--tt-title)}
+.gz-t-heading{font-family:var(--ff-heading);font-size:var(--fs-heading);font-weight:var(--fw-heading);line-height:var(--lh-heading);letter-spacing:var(--ls-heading);font-style:var(--fst-heading);text-transform:var(--tt-heading)}
+.gz-t-lead{font-family:var(--ff-lead);font-size:var(--fs-lead);font-weight:var(--fw-lead);line-height:var(--lh-lead);letter-spacing:var(--ls-lead);font-style:var(--fst-lead);text-transform:var(--tt-lead)}
+.gz-t-body{font-family:var(--ff-body);font-size:var(--fs-body);font-weight:var(--fw-body);line-height:var(--lh-body);letter-spacing:var(--ls-body);font-style:var(--fst-body);text-transform:var(--tt-body)}
+.gz-t-small{font-family:var(--ff-small);font-size:var(--fs-small);font-weight:var(--fw-small);line-height:var(--lh-small);letter-spacing:var(--ls-small);font-style:var(--fst-small);text-transform:var(--tt-small)}
+.gz-t-caption{font-family:var(--ff-caption);font-size:var(--fs-caption);font-weight:var(--fw-caption);line-height:var(--lh-caption);letter-spacing:var(--ls-caption);font-style:var(--fst-caption);text-transform:var(--tt-caption)}
+.gz-t-label{font-family:var(--ff-label);font-size:var(--fs-label);font-weight:var(--fw-label);line-height:var(--lh-label);letter-spacing:var(--ls-label);font-style:var(--fst-label);text-transform:var(--tt-label)}
+.gz-t-meta{font-family:var(--ff-meta);font-size:var(--fs-meta);font-weight:var(--fw-meta);line-height:var(--lh-meta);letter-spacing:var(--ls-meta);font-style:var(--fst-meta);text-transform:var(--tt-meta)}
+.gz-t-num-xl{font-family:var(--ff-num-xl);font-size:var(--fs-num-xl);font-weight:var(--fw-num-xl);line-height:var(--lh-num-xl);letter-spacing:var(--ls-num-xl);font-style:var(--fst-num-xl);text-transform:var(--tt-num-xl)}
+.gz-t-num-l{font-family:var(--ff-num-l);font-size:var(--fs-num-l);font-weight:var(--fw-num-l);line-height:var(--lh-num-l);letter-spacing:var(--ls-num-l);font-style:var(--fst-num-l);text-transform:var(--tt-num-l)}
+.gz-t-num-m{font-family:var(--ff-num-m);font-size:var(--fs-num-m);font-weight:var(--fw-num-m);line-height:var(--lh-num-m);letter-spacing:var(--ls-num-m);font-style:var(--fst-num-m);text-transform:var(--tt-num-m)}
+.gz-t-display-zh{font-family:var(--ff-display-zh);font-size:var(--fs-display-zh);font-weight:var(--fw-display-zh);line-height:var(--lh-display-zh);letter-spacing:var(--ls-display-zh);font-style:var(--fst-display-zh);text-transform:var(--tt-display-zh)}
+.gz-t-title-zh{font-family:var(--ff-title-zh);font-size:var(--fs-title-zh);font-weight:var(--fw-title-zh);line-height:var(--lh-title-zh);letter-spacing:var(--ls-title-zh);font-style:var(--fst-title-zh);text-transform:var(--tt-title-zh)}
+.gz-t-subhead{font-family:var(--ff-subhead);font-size:var(--fs-subhead);font-weight:var(--fw-subhead);line-height:var(--lh-subhead);letter-spacing:var(--ls-subhead);font-style:var(--fst-subhead);text-transform:var(--tt-subhead)}
+.gz-t-quote{font-family:var(--ff-quote);font-size:var(--fs-quote);font-weight:var(--fw-quote);line-height:var(--lh-quote);letter-spacing:var(--ls-quote);font-style:var(--fst-quote);text-transform:var(--tt-quote)}
 
-    /* ---------- 3. Spacing tokens (8/12/16/24/32/40/48/64/80/96/160) ---------- */
-    :root {
-      --sp-3:   8px;
-      --sp-4:  12px;
-      --sp-5:  16px;
-      --sp-6:  24px;
-      --sp-7:  32px;
-      --sp-8:  40px;
-      --sp-9:  48px;
-      --sp-10: 64px;
-      --sp-11: 80px;
-      --sp-12: 96px;
-      --sp-13:160px;
-    }
+:lang(zh){line-break:strict;text-spacing-trim:normal;text-autospace:normal;overflow-wrap:break-word}
+:lang(zh) .gz-prose em:not(:lang(en)){font-style:normal;text-emphasis:filled dot;text-emphasis-position:under right}
+.gz-tnum{font-variant-numeric:tabular-nums}
 
+/* 歸藏设计系统 · 共享组件
+ *
+ * 一份结构，三种介质：根节点 <html data-family="magazine|swiss" data-medium="slide|card|page">。
+ * 这里只管布局、颜色和间距；字号、字重、行高一律由 gz-t-<角色> 类提供，
+ * 所以同一个组件放进 PPT、卡片、网页会自动换成各自的字号。
+ * 颜色只用语义 token（--text-* / --line-* / --accent*），换主题不需要改组件。
+ */
+
+/* ---------- 家族差异 ---------- */
+[data-family="magazine"] { --img-pos: center top; --rule: 1px solid var(--line-strong); --rule-strong: 1px solid var(--line-strong) }
+[data-family="swiss"]    { --img-pos: center center; --rule: 1px solid var(--line); --rule-strong: 2px solid var(--ink) }
+
+/* ---------- 表面：反色块里文字角色跟着换 ---------- */
+[data-surface="ink"] {
+  background: var(--ink); color: var(--paper);
+  --text-primary: var(--paper); --text-body: rgba(var(--paper-rgb), .86); --text-secondary: rgba(var(--paper-rgb), .72);
+  --text-helper: rgba(var(--paper-rgb), .62); --line: rgba(var(--paper-rgb), .22); --line-strong: rgba(var(--paper-rgb), .45);
+  --accent-ink: var(--accent-ink-inverse); --accent-display: var(--accent-ink-inverse); --rule-strong: 2px solid var(--paper);
+}
+[data-family="magazine"] [data-surface="ink"], [data-family="magazine"][data-surface="ink"] { --rule-strong: 1px solid rgba(var(--paper-rgb), .45) }
+[data-surface="accent"] {
+  background: var(--accent); color: var(--accent-on);
+  --text-primary: var(--accent-on); --text-body: rgba(var(--accent-on-rgb), .88); --text-secondary: rgba(var(--accent-on-rgb), .78);
+  --text-helper: rgba(var(--accent-on-rgb), .7); --line: rgba(var(--accent-on-rgb), .3); --line-strong: rgba(var(--accent-on-rgb), .55);
+  --accent-ink: var(--accent-on); --accent-display: var(--accent-on); --rule-strong: 2px solid var(--accent-on);
+}
+[data-surface="paper-2"] { background: var(--paper-2) }
+
+/* ---------- 页眉页脚 chrome ---------- */
+.gz-chrome { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-6); color: var(--text-helper); border-top: var(--rule); padding-top: var(--sp-4) }
+.gz-chrome[data-pos="top"] { border-top: 0; border-bottom: var(--rule); padding: 0 0 var(--sp-4) }
+.gz-chrome__group { display: flex; gap: var(--sp-5); min-width: 0 }
+.gz-chrome__accent { color: var(--accent-ink) }
+
+/* ---------- 封面 cover ---------- */
+.gz-cover { display: flex; flex-direction: column; gap: var(--sp-6); color: var(--text-primary) }
+.gz-cover__kicker { color: var(--text-helper) }
+[data-family="swiss"] .gz-cover__kicker { color: var(--accent-ink) }
+.gz-cover__body { width: 100%; container-type: inline-size }
+/* 标题按最长一行的字数自动收字号（render 写入 --chars），上限仍是 token 定的展示字号，任何画布都不溢出 */
+.gz-cover__title { margin: 0; font-size: min(var(--fs-display-zh), calc(100cqi / var(--chars, 1) * .94)) }
+.gz-cover__rule { width: 96px; height: 0; border-top: 2px solid var(--accent) }
+[data-family="swiss"] .gz-cover__rule { border-top-width: 3px }
+.gz-cover__sub { margin: 0; color: var(--text-body); max-width: 32em }
+.gz-cover__meta { margin-top: auto }
+/* 幻灯片、卡片：封面撑满画布，标题压在下半部 */
+[data-medium="slide"] .gz-cover, [data-medium="card"] .gz-cover { height: 100% }
+[data-medium="slide"] .gz-cover__body, [data-medium="card"] .gz-cover__body { margin-top: auto; display: flex; flex-direction: column; gap: var(--sp-7) }
+[data-medium="slide"] .gz-cover__meta, [data-medium="card"] .gz-cover__meta { margin-top: var(--sp-10) }
+/* 网页：杂志风居中，瑞士风左对齐 */
+[data-medium="page"] .gz-cover { padding: var(--sp-11) 0 var(--sp-9); border-bottom: var(--rule) }
+[data-medium="page"] .gz-cover__body { display: flex; flex-direction: column; gap: var(--sp-6) }
+[data-medium="page"][data-family="magazine"] .gz-cover { align-items: center; text-align: center }
+[data-medium="page"][data-family="magazine"] .gz-cover__body { align-items: center }
+[data-medium="page"] .gz-cover__meta { margin-top: var(--sp-6); border-top: 0; padding-top: 0; justify-content: center }
+[data-medium="page"][data-family="swiss"] .gz-cover__meta { justify-content: flex-start }
+
+/* ---------- 大数字 stat ---------- */
+.gz-stats { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: var(--sp-9) var(--sp-7) }
+.gz-stats[data-count="1"] { --cols: 1 } .gz-stats[data-count="2"] { --cols: 2 } .gz-stats[data-count="4"] { --cols: 4 }
+[data-medium="card"] .gz-stats { --cols: 2 }
+[data-medium="card"] .gz-stats[data-count="1"], [data-medium="card"] .gz-stats[data-count="3"] { --cols: 1 }
+.gz-stat { display: flex; flex-direction: column; gap: var(--sp-4); border-top: var(--rule-strong); padding-top: var(--sp-5); min-width: 0 }
+.gz-stat__label { color: var(--text-helper) }
+.gz-stat__value { display: flex; align-items: baseline; gap: .06em; font-variant-numeric: tabular-nums lining-nums; white-space: nowrap }
+.gz-stat__unit { font-size: .4em; font-weight: 500; letter-spacing: 0; color: var(--text-secondary) }
+.gz-stat.is-accent .gz-stat__num { color: var(--accent-ink) }
+.gz-stat__note { margin: 0; color: var(--text-secondary); max-width: 24em }
+[data-medium="card"] .gz-stats[data-count="3"] .gz-stat { display: grid; grid-template-columns: auto 1fr; align-items: end; column-gap: var(--sp-7) }
+[data-medium="card"] .gz-stats[data-count="3"] .gz-stat__label { grid-column: 1 / -1 }
+[data-medium="card"] .gz-stats[data-count="3"] .gz-stat__note { padding-bottom: .6em }
+
+/* ---------- 引言 quote ---------- */
+.gz-quote { margin: 0; display: flex; flex-direction: column; gap: var(--sp-7) }
+.gz-quote__text { margin: 0; color: var(--text-primary); text-wrap: balance }
+.gz-quote__text p { margin: 0; text-wrap: balance }
+[data-family="magazine"] .gz-quote__text::before { content: "\201C"; display: block; font-family: var(--font-display); font-style: normal; color: var(--accent); font-size: 1.8em; line-height: 1; height: .55em }
+[data-family="swiss"] .gz-quote { border-top: var(--rule-strong); padding-top: var(--sp-7) }
+.gz-quote__source { color: var(--text-helper) }
+[data-medium="page"][data-family="magazine"] .gz-quote { align-items: center; text-align: center; padding: var(--sp-9) 0 }
+
+/* ---------- 流程 process：幻灯片 / 网页横排，卡片竖排 ---------- */
+.gz-process { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: var(--sp-7) }
+.gz-process__step { display: flex; flex-direction: column; gap: var(--sp-4); border-top: var(--rule-strong); padding-top: var(--sp-5); min-width: 0 }
+.gz-process__nb { color: var(--accent-ink) }
+.gz-process__title { margin: 0 }
+.gz-process__desc { margin: 0; color: var(--text-secondary) }
+[data-medium="card"] .gz-process { grid-template-columns: 1fr; gap: 0; border-bottom: var(--rule) }
+[data-medium="card"] .gz-process__step { display: grid; grid-template-columns: 112px minmax(0, 1fr); column-gap: var(--sp-6); row-gap: var(--sp-3); padding: var(--sp-7) 0 }
+[data-medium="card"] .gz-process__step + .gz-process__step { border-top: var(--rule) }
+[data-medium="card"] .gz-process__nb { grid-row: span 2 }
+[data-medium="page"] .gz-process { --n: 2; row-gap: var(--sp-8) }
+
+/* ---------- 对比 compare：左右分栏，卡片上下叠 ---------- */
+.gz-compare { display: grid; grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr); gap: 0 var(--sp-9) }
+.gz-compare__rule { background: var(--line-strong) }
+.gz-compare__side { display: flex; flex-direction: column; gap: var(--sp-5); min-width: 0 }
+.gz-compare__tag { color: var(--text-helper) }
+.gz-compare__side[data-side="after"] .gz-compare__tag { color: var(--accent-ink) }
+.gz-compare__title { margin: 0 }
+.gz-compare__side[data-side="before"] .gz-compare__title { color: var(--text-secondary) }
+.gz-compare__desc { margin: 0; color: var(--text-secondary) }
+.gz-compare__list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--sp-3); color: var(--text-body) }
+.gz-compare__list li { padding-left: 1.2em; position: relative }
+.gz-compare__list li::before { content: ""; position: absolute; left: 0; top: .72em; width: .5em; border-top: 1px solid currentColor }
+[data-family="swiss"] .gz-compare__side[data-side="after"][data-surface] { padding: var(--sp-8) }
+[data-medium="card"] .gz-compare { grid-template-columns: 1fr; gap: var(--sp-8) 0 }
+[data-medium="card"] .gz-compare__rule { height: 1px }
+
+/* ---------- 图框 figure：照片 cover 裁切，截图 contain 放在底台上 ---------- */
+.gz-figure { margin: 0; display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0 }
+.gz-figure__well { position: relative; aspect-ratio: var(--ratio, 16 / 10); overflow: hidden; background: var(--paper-2) }
+.gz-figure__well > img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--img-pos) }
+.gz-figure[data-ratio="16x9"] { --ratio: 16 / 9 } .gz-figure[data-ratio="16x10"] { --ratio: 16 / 10 } .gz-figure[data-ratio="4x3"] { --ratio: 4 / 3 }
+.gz-figure[data-ratio="3x2"] { --ratio: 3 / 2 } .gz-figure[data-ratio="1x1"] { --ratio: 1 } .gz-figure[data-ratio="3x4"] { --ratio: 3 / 4 } .gz-figure[data-ratio="21x9"] { --ratio: 21 / 9 }
+.gz-figure[data-kind="screenshot"] .gz-figure__well { display: flex; align-items: center; justify-content: center; padding: var(--inset, var(--sp-8)) }
+.gz-figure[data-kind="screenshot"] .gz-figure__well > img { width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; border-radius: var(--radius-sm); box-shadow: 0 0 0 1px var(--line) }
+[data-family="magazine"] .gz-figure[data-kind="screenshot"] .gz-figure__well > img { box-shadow: 0 0 0 1px var(--line), 0 18px 40px -24px rgba(var(--ink-rgb), .45) }
+[data-family="swiss"] .gz-figure[data-kind="screenshot"] .gz-figure__well { background: var(--grey-1); border-top: 3px solid var(--accent) }
+[data-family="swiss"] .gz-figure[data-kind="screenshot"] .gz-figure__well > img { border-radius: 0 }
+.gz-figure__cap { color: var(--text-helper); display: flex; gap: var(--sp-4) }
+.gz-figure__idx { color: var(--accent-ink); flex: none }
+
+/* ---------- 图片网格 gallery ---------- */
+.gz-gallery { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: var(--sp-7) var(--sp-6) }
+[data-medium="card"] .gz-gallery { --cols: 2 }
+[data-medium="card"] .gz-gallery[data-count="3"] > :first-child { grid-column: 1 / -1; --ratio: 16 / 9 }
+
+/* ---------- 条目清单 ledger ---------- */
+.gz-ledger { list-style: none; margin: 0; padding: 0; border-top: var(--rule-strong) }
+.gz-ledger__row { display: grid; grid-template-columns: var(--nb-w, 3.2em) minmax(0, 1fr) auto; column-gap: var(--sp-6); align-items: baseline; padding: var(--sp-6) 0; border-bottom: var(--rule) }
+.gz-ledger__nb { color: var(--accent-ink) }
+.gz-ledger__title { margin: 0 }
+.gz-ledger__note { margin: var(--sp-2) 0 0; color: var(--text-secondary) }
+.gz-ledger__value { color: var(--text-helper); text-align: right; white-space: nowrap }
+[data-medium="card"] .gz-ledger__row { --nb-w: 72px; padding: var(--sp-7) 0 }
+
+/* 歸藏设计系统 · 纹理与特效图层（纯 CSS，颜色全部来自 token）
+ * 来源：PPT 瑞士风 .dots / .dot-mat / .ring-mat / .cross-mat / .hatch，卡片杂志风 .grain / .paper-wash。
+ */
+
+/* 特效画布：铺满父容器、在内容下面、不挡点击。父容器需要 position: relative */
+.gz-effect { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; z-index: 0 }
+.gz-layer-content { position: relative; z-index: 1 }
+
+/* 点阵：前景色画点，跟随所在表面的文字色 */
+.gz-dots      { background-image: radial-gradient(currentColor 1px, transparent 1.2px); background-size: 12px 12px; opacity: .18 }
+.gz-dots-fine { background-image: radial-gradient(currentColor .8px, transparent 1px); background-size: 8px 8px; opacity: .14 }
+.gz-dots-bold { background-image: radial-gradient(currentColor 1.4px, transparent 1.6px); background-size: 18px 18px; opacity: .22 }
+
+.gz-dot-mat         { --mat: 14px; background-image: radial-gradient(currentColor 1.4px, transparent 1.6px); background-size: var(--mat) var(--mat); opacity: .5 }
+.gz-dot-mat.is-lg   { --mat: 22px } .gz-dot-mat.is-xl { --mat: 34px }
+.gz-dot-mat.is-dense{ --mat: 9px; opacity: .62 }
+.gz-ring-mat        { --mat: 18px; background-image: radial-gradient(circle, transparent 2px, currentColor 2px, currentColor 2.7px, transparent 2.9px); background-size: var(--mat) var(--mat); opacity: .55 }
+.gz-ring-mat.is-lg  { --mat: 28px }
+.gz-cross-mat       { --mat: 22px; background: currentColor; opacity: .42;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Cpath d='M8 8l6 6M14 8l-6 6' stroke='%23000' stroke-width='1.4'/%3E%3C/svg%3E") 0 0 / var(--mat) var(--mat);
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Cpath d='M8 8l6 6M14 8l-6 6' stroke='%23000' stroke-width='1.4'/%3E%3C/svg%3E") 0 0 / var(--mat) var(--mat) }
+.gz-cross-mat.is-lg { --mat: 32px }
+.gz-hatch           { background-image: repeating-linear-gradient(135deg, currentColor 0 1px, transparent 1px 8px); opacity: .55 }
+
+/* 纸张颗粒与墨色晕染：杂志风卡片的「氛围层」，叠在特效画布上、内容下 */
+.gz-grain      { position: absolute; inset: 0; pointer-events: none; z-index: 0; mix-blend-mode: multiply; opacity: .35;
+                 background-image: radial-gradient(rgba(0,0,0,.045) 1px, transparent 1px); background-size: 3px 3px }
+[data-scheme="dark"] .gz-grain, .gz-grain.is-dark { mix-blend-mode: screen; opacity: .26; background-image: radial-gradient(rgba(255,244,214,.10) 1px, transparent 1px) }
+.gz-paper-wash { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+                 background: linear-gradient(180deg, rgba(var(--ink-rgb), .02), rgba(var(--ink-rgb), .05) 60%, rgba(var(--ink-rgb), .08)) }
+.gz-ink-vignette { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+                 background: radial-gradient(circle at 18% 12%, rgba(var(--ink-rgb), .10), transparent 34%), radial-gradient(circle at 82% 80%, rgba(var(--accent-rgb), .10), transparent 38%) }
+
+/* PPT 杂志风：WebGL 背景上的纸 / 墨蒙版，保证文字可读（原 .slide.light/.dark::before） */
+.gz-veil       { position: absolute; inset: 0; pointer-events: none; z-index: 0; backdrop-filter: blur(3px); background: rgba(var(--paper-rgb), .78) }
+.gz-veil.is-ink{ background: rgba(var(--ink-rgb), .78) }
+.gz-veil.is-hero { backdrop-filter: none; background: rgba(var(--paper-rgb), .16) }
+.gz-veil.is-hero.is-ink { background: rgba(var(--ink-rgb), .12) }
+
+@media (prefers-reduced-motion: reduce) { .gz-effect { animation: none } }
+
+/* 旧变量名别名（迁移期保留） */
+:root{--sans:var(--font-sans);--sans-zh:'Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;--mono:var(--font-mono)}
+/* 模板自己的反色块 → 设计系统反色表面 */
+.card-ink{--text-primary: var(--paper);--text-body: rgba(var(--paper-rgb), .86);--text-secondary: rgba(var(--paper-rgb), .72);--text-helper: rgba(var(--paper-rgb), .62);--line: rgba(var(--paper-rgb), .22);--line-strong: rgba(var(--paper-rgb), .45);--accent-ink: var(--accent-ink-inverse);--accent-display: var(--accent-ink-inverse);--rule-strong: 2px solid var(--paper)}
+.card-accent{--text-primary: var(--accent-on);--text-body: rgba(var(--accent-on-rgb), .88);--text-secondary: rgba(var(--accent-on-rgb), .78);--text-helper: rgba(var(--accent-on-rgb), .7);--line: rgba(var(--accent-on-rgb), .3);--line-strong: rgba(var(--accent-on-rgb), .55);--accent-ink: var(--accent-on);--accent-display: var(--accent-on);--rule-strong: 2px solid var(--accent-on)}
+/* GZ:TOKENS:END */
     /* ---------- 4. Reset & sheet ---------- */
     *,*::before,*::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
@@ -144,14 +622,12 @@
       background-image: radial-gradient(circle at 50% 50%, transparent 4px, var(--ink) 4.5px, var(--ink) 5px, transparent 5.5px);
       background-size: 32px 32px;
     }
+    /* 十字阵：14px 的 + 号，22px 一格（原写法把 1px 线条首尾相接铺成了一层灰） */
     .cross-mat {
-      opacity: .06;
-      background-image:
-        linear-gradient(var(--ink), var(--ink)),
-        linear-gradient(90deg, var(--ink), var(--ink));
-      background-size: 1px 14px, 14px 1px;
-      background-position: center, center;
-      background-repeat: repeat;
+      opacity: .12;
+      background: var(--ink);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Cpath d='M11 4v14M4 11h14' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E") 0 0 / 22px 22px;
+              mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Cpath d='M11 4v14M4 11h14' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E") 0 0 / 22px 22px;
     }
 
     /* ---------- 6. Typography roles (Swiss extreme contrast) ----------
@@ -215,7 +691,7 @@
       font-size: 22px;
       letter-spacing: .08em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--accent-ink);
       margin: 0;
     }
     .t-meta {
@@ -287,7 +763,9 @@
     .span-2   { grid-column: span 2; }
     .span-3   { grid-column: span 3; }
     .span-4   { grid-column: span 4; }
+    .span-5   { grid-column: span 5; }
     .span-6   { grid-column: span 6; }
+    .span-7   { grid-column: span 7; }
     .span-8   { grid-column: span 8; }
     .span-9   { grid-column: span 9; }
     .span-12  { grid-column: span 12; }
@@ -320,7 +798,8 @@
     .card-ink .t-meta,
     .card-ink .lead,
     .card-ink .body,
-    .card-ink .h-md { color: var(--paper); }
+    .card-ink .h-md,
+    .card-ink :is(.h-hero, .h-statement, .h-xl, .num-mega, .num-xl) { color: var(--paper); }
     .card-accent {
       background: var(--accent);
       color: var(--accent-on);
@@ -331,6 +810,7 @@
     .card-accent .lead,
     .card-accent .body,
     .card-accent .h-md { color: var(--accent-on); }
+    .card-accent :is(.h-hero, .h-statement, .h-xl, .num-mega, .num-xl) { color: var(--accent-on); }
     .card-fill {
       background: var(--grey-1);
       color: var(--ink);
@@ -362,6 +842,7 @@
     .frame-img.r-3x4   { aspect-ratio: 3 / 4; }
     .frame-img.r-1x1   { aspect-ratio: 1 / 1; }
     .frame-img.r-4x3   { aspect-ratio: 4 / 3; }
+    .frame-img.r-3x2   { aspect-ratio: 3 / 2; }
     .frame-img.r-16x9  { aspect-ratio: 16 / 9; }
     .frame-img.r-16x10 { aspect-ratio: 16 / 10; }
     .frame-img.r-21x9  { aspect-ratio: 21 / 9; }
@@ -761,7 +1242,7 @@
     .stacked-ledger .ledger-icn {
       width: 56px;
       height: 56px;
-      color: var(--accent);
+      color: var(--accent-display);
     }
     .poster.square .stacked-ledger .ledger-num { font-size: 88px; }
     .poster.square .stacked-ledger .ledger-row { grid-template-columns: 220px 1fr auto; }
@@ -845,14 +1326,15 @@
     }
 
     /* ---------- 12. Pair preview frame ---------- */
+    /* 宽幅 + 方形并排预览：宽度随内容（2100 + 1080 + 间距），两张顶部对齐 */
     .pair-preview {
-      width: 2400px;
-      min-height: 1180px;
+      width: max-content;
       background: var(--grey-1);
       padding: var(--sp-9);
       display: grid;
       grid-template-columns: 2100px 1080px;
-      grid-template-rows: 900px 1080px;
+      grid-template-rows: auto;
+      align-items: start;
       gap: var(--sp-9);
       align-content: center;
       justify-content: center;

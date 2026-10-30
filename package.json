@@ -1,16 +1,19 @@
 {
   "name": "guizang-social-card-skill",
   "version": "1.0.0",
-  "description": "",
+  "description": "歸藏图文卡片 skill：小红书图文、公众号封面、Live Photo",
   "main": "index.js",
   "scripts": {
     "test:docs": "node scripts/check-skill-docs.mjs",
-    "validate": "node validate-social-deck.mjs"
+    "validate": "node validate-social-deck.mjs",
+    "render": "node scripts/render.mjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "playwright": "^1.60.0"
-  }
+    "playwright": "^1.60.0",
+    "subset-font": "^2.9.0"
+  },
+  "type": "module"
 }
