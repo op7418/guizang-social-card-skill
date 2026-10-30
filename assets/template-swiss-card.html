@@ -412,6 +412,10 @@
 }
 [data-surface="paper-2"] { background: var(--paper-2) }
 
+/* 强调色文字：小字用 accent-ink，大字 / 大数字用 accent-display（浅色强调色在纸上会自动加深；反色块里自动切换） */
+.gz-c-accent { color: var(--accent-ink) }
+.gz-c-accent-display { color: var(--accent-display) }
+
 /* ---------- 页眉页脚 chrome ---------- */
 .gz-chrome { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-6); color: var(--text-helper); border-top: var(--rule); padding-top: var(--sp-4) }
 .gz-chrome[data-pos="top"] { border-top: 0; border-bottom: var(--rule); padding: 0 0 var(--sp-4) }
@@ -1327,6 +1331,10 @@
       border-bottom: 1px solid var(--grey-2);
       margin-bottom: var(--sp-9);
     }
+
+    /* 页眉在墨色 / 强调色块上跟着反色（整张卡片反色时给 <section class="poster"> 加 data-surface="ink|accent"） */
+    .card-ink .chrome-min, [data-surface="ink"] .chrome-min { color: rgba(var(--paper-rgb), .62); border-bottom-color: rgba(var(--paper-rgb), .22); }
+    .card-accent .chrome-min, [data-surface="accent"] .chrome-min { color: rgba(var(--accent-on-rgb), .7); border-bottom-color: rgba(var(--accent-on-rgb), .3); }
 
     /* ---------- 12. Pair preview frame ---------- */
     /* 宽幅 + 方形并排预览：宽度随内容（2100 + 1080 + 间距），两张顶部对齐 */
