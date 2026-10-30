@@ -69,7 +69,7 @@ Turn these three game clips into a triple Live Photo collage with Swiss-style gu
 - 🧰 **Screenshot beautification assets**: 9 real-texture WebP backgrounds (5 Editorial / 4 Swiss), paired with `.frame-shot` / `.device-browser` / `.device-phone` utilities
 - 🗺 **Map component**: MapLibre + OSM real tiles, multi-pin + connectors, made for travel guides
 - ✅ **Validator**: `validate-social-deck.mjs` auto-detects overflow, type cap violations, 4-band density gaps, and footer collisions
-- 📄 **Single-file HTML + Playwright rendering**: no frontend build pipeline; `node render.mjs` outputs PNG directly
+- 📄 **Single-file HTML + Playwright rendering**: no frontend build pipeline; `node scripts/render.mjs` outputs PNG directly
 
 ## Live Photo effects and layouts
 
@@ -198,10 +198,10 @@ Once installed, Claude Code auto-detects the skill. Trigger phrases:
 The skill is a structured workflow. The agent walks through 7 steps:
 
 1. **Intake** — capture 4 things: target platform / style / source content / user images. When no images are available, present A/B/C once (shoot your own / AI generate / source online); don't re-pitch
-2. **Style & Theme** — pick Editorial or Swiss, then pick one of 10 theme presets. Custom hex values are not allowed
+2. **Style & Theme** — pick Editorial or Swiss, then pick one of 10 theme presets. No hand-written hex values; brand colors go through constrained generation
 3. **Layout Selection** — pick / paste / adapt copy from the 28 layout skeletons. 16 Editorial / 12 Swiss
 4. **Asset Prep** — source images (Unsplash / Pexels / Flickr CC / Wallhaven / direct search), download locally + write `SOURCES.md`; ask whether to credit sources
-5. **Compose & Render** — copy seed template → replace `<!-- POSTERS_HERE -->` → `node render.mjs`
+5. **Compose & Render** — copy seed template → replace `<!-- POSTERS_HERE -->` → `node scripts/render.mjs <task-dir>`
 6. **Deliver & Review** — show PNGs first, ask "look at them yourself, or want me to run the validator?" — does not auto-validate
 7. **Iterate** — apply user feedback, tweak inline styles or swap layouts / images, re-render
 
@@ -231,7 +231,7 @@ node validate-social-deck.mjs path/to/task-dir
 
 ## Theme presets
 
-Pick from [`references/theme-presets.md`](./references/theme-presets.md). **Custom hex values are not allowed** — protecting the aesthetic matters more than freedom of choice.
+Pick from [`references/theme-presets.md`](./references/theme-presets.md). **Don't write hex values by hand** — protecting the aesthetic matters more than freedom of choice. Every theme's text, rule and small accent-text colors are derived with the same contrast rules (WCAG + APCA).
 
 ### Editorial (6)
 
@@ -253,7 +253,20 @@ Pick from [`references/theme-presets.md`](./references/theme-presets.md). **Cust
 | 🟢 **Lemon Green** | `#C5E803` | Eco, health, Gen Z, green brands |
 | 🟠 **Safety Orange** | `#FF6B35` | Alerts, news, industrial, energetic themes |
 
-To switch themes, just replace the `<section class="poster" data-theme="...">` attribute on the seed template; all CSS resolves through `var(--...)`.
+To switch themes, set the theme id on the seed template's first line, `<html data-theme="…">`. All themes are built into the template; the old Swiss `data-accent="…"` attribute still works.
+
+When the user gives a brand or logo color, run `node scripts/gz-theme.mjs brand "#FF2442" --family magazine` (`--family swiss` for Swiss) and paste the printed theme into the page. The script pulls the color into the lightness and chroma range the style allows and refuses it if it cannot meet the readability floors — fall back to a preset then.
+
+## Rendering
+
+Install dependencies once in the skill folder:
+
+```bash
+npm install
+node scripts/render.mjs path/to/task-dir
+```
+
+The renderer subsets and embeds the fonts the page actually uses (downloading them to a local cache the first time), waits for the frozen background and icons, screenshots every card at its board size to `output/<id>.png`, and checks the sizes. Locally registered commercial fonts (`node scripts/gz-fonts.mjs add …`) are embedded too and never uploaded.
 
 ## Directory
 
@@ -325,7 +338,7 @@ guizang-social-card-skill/
 ## FAQ
 
 **Can I batch-export images?**
-Yes. A task directory's `index.html` can hold multiple `.poster` sections; `node render.mjs` screenshots each one. A 3-9 card Xiaohongshu set is the common case.
+Yes. A task directory's `index.html` can hold multiple `.poster` sections; `node scripts/render.mjs` screenshots each one. A 3-9 card Xiaohongshu set is the common case.
 
 **Why are custom colors disallowed?**
 Same reason as the PPT skill — the skill's core value is stable output. Free color picking breaks visual cohesion. Pick from the 10 presets only.
@@ -351,7 +364,7 @@ Bugs, layout issues, new layout requests — Issues and PRs welcome. Priorities 
 
 - When editing seed templates, also update `references/components.md`'s correspondence table (sizes / spacing / weights)
 - When adding layouts, add the full recipe to `references/layout-recipes.md` (copy caps + minimum density)
-- When adding theme colors, also update the seed template's `[data-theme="..."]` block + `references/theme-presets.md`
+- Themes, type sizes, fonts and background effects come from a shared design system: the template's `GZ:FONTS` / `GZ:TOKENS` / `GZ:EFFECTS` blocks, the `GZ:THEMES` block in `theme-presets.md`, `scripts/gz-*.mjs` and `scripts/render.mjs` are generated — don't edit them by hand; open an issue for new theme colors or type changes
 - When adding Swiss rules, also update the matching rule in `validate-social-deck.mjs`
 - Mistakes you've hit go into `references/qa-checklist.md`
 - Tests and demos live under `local-tests/` — do not pollute the skill root

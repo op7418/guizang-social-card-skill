@@ -7,9 +7,8 @@ Create a task folder under `local-tests/` by default:
 ```text
 local-tests/<slug>/
   index.html
-  render.cjs
   assets/
-  output/
+  output/        ← written by scripts/render.mjs
 ```
 
 Use descriptive slugs:
@@ -55,9 +54,8 @@ Each frame must have stable dimensions:
   height: 1080px;
 }
 
-.wechat-pair-preview {
-  width: 2400px;
-  min-height: 1180px;
+.pair-preview {
+  width: max-content;   /* 2100 + 1080 + gaps; the renderer widens its window to fit */
 }
 ```
 
@@ -81,17 +79,17 @@ For electronic-magazine pages, place background canvases inside each `.poster` i
 </section>
 ```
 
-The skill includes a reusable helper at `assets/magazine-bg-webgl.js`. Copy or inline it into the generated project when a WebGL background is useful.
+The Editorial seed template already includes the ink-flow background (`<canvas class="mag-bg">`, see background-systems.md); nothing to copy.
 
 ## Rendering
 
-Use Playwright or an equivalent browser screenshot workflow:
+Run the bundled renderer (install dependencies once with `npm install` in the skill root):
 
-1. Open `index.html`.
-2. Wait for fonts and images.
-3. Screenshot each frame node by id.
-4. Save to `output/`.
-5. Verify dimensions.
+```bash
+node <SKILL_ROOT>/scripts/render.mjs local-tests/<slug>
+```
+
+It embeds the fonts the page actually uses (subset, written into the HTML, so rendering is offline and repeatable), waits for fonts, the frozen background and Lucide icons, screenshots every `.poster` by id into `output/<id>.png` plus `wechat-cover-pair-preview.png`, and fails if any image is not the board size (1080×1440 / 1080×1080 / 2100×900). Options: `--only xhs-01,wechat-1x1`, `--out <dir>`, `--no-embed` (use online fonts).
 
 If using WebGL or procedural canvas backgrounds:
 

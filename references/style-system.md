@@ -144,7 +144,7 @@ These all rendered without errors and looked plausible in isolation, but failed 
 A page with all of the following looks Swiss-in-disguise even if you intended Editorial:
 
 - Single flat paper color, no grain, no ink wash, no WebGL,
-- Mono labels (`IBM Plex Mono uppercase`) on every kicker, foot, pill, and row label,
+- Mono labels (uppercase `--mono`) on every kicker, foot, pill, and row label,
 - A serif headline floating alone with no large image, pull quote, or marginalia column.
 
 Fix by **one** of:

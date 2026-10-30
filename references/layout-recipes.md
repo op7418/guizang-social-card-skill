@@ -169,7 +169,7 @@ Structure:
 - WebGL ink-flow background visible across most of the canvas (Editorial template mounts this by default).
 - One mono `kicker` like `Act II` or `Part 2 of 3`.
 - One large serif `h-display` naming the section (3-6 Chinese characters).
-- One short subtitle in serif italic.
+- One short English subtitle in serif italic (Playfair). A Chinese subtitle stays upright.
 - Optional bottom `issue-strip` with the section's promise.
 
 HTML skeleton (3:4):

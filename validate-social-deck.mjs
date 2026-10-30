@@ -58,8 +58,10 @@ await page.waitForTimeout(1200);
 
 const style = styleOverride || await page.evaluate(() => {
   const html = document.documentElement;
-  if (html.dataset.theme) return "editorial";
+  // 同步过设计系统的模板会写 data-family（magazine / swiss），最可靠；瑞士风现在也用 data-theme，不能再按 data-theme 判断
+  if (html.dataset.family) return html.dataset.family === "swiss" ? "swiss" : "editorial";
   if (html.dataset.accent) return "swiss";
+  if (html.dataset.theme && !["ikb", "lemon", "lemon-green", "safety-orange"].includes(html.dataset.theme)) return "editorial";
   // Fallback: any display class using a serif family = editorial; otherwise swiss.
   // Note: "sans-serif" generic name also contains the substring "serif", so we
   // match on serif-only families by token, not substring.
@@ -71,19 +73,21 @@ const style = styleOverride || await page.evaluate(() => {
   return "swiss";
 });
 
-const sections = await page.$$("section.poster");
+// 配对预览里的封面是缩放过的副本，不单独检查（原件已经检查过）
+const sections = await page.$$("section.poster:not(.pair-preview section.poster)");
 const report = [];
 
-// "Obviously too small" floors — below these, text becomes unreadable at phone size.
-// Seeds use 26-28px body, 30-32px lead — those are fine. Anything 4+px below is suspect.
+// 字号下限：和 guizang-design tokens/media.json 的 card.floors 一致（正文 24、小字 20、图注 / 标签 / meta 18）。
+// 低于下限判 FAIL；导语没有 token 下限，低于 26 只给 WARN。
 const MIN_FONT = {
-  body: 22,
+  body: 24,
   lead: 26,
   caption: 18,
   meta: 18,
   cellTitle: 20,
   numAnnotation: 20,
 };
+const WARN_ONLY = new Set(["lead"]);
 
 const HXL_CAPS = {
   xhs:    { maxLines: 2, maxChars: 8 },
@@ -323,7 +327,8 @@ for (const s of sections) {
     return out;
   }, MIN_FONT);
   for (const t of textChecks) {
-    warns.push({ rule: "R4", msg: `${t.role} "${t.text}" at ${t.size}px < ${t.min}px floor`, fix: "cut copy instead of shrinking type (components.md Minimum Readable Sizes)" });
+    const item = { rule: "R4", msg: `${t.role} "${t.text}" at ${t.size}px < ${t.min}px floor`, fix: "cut copy instead of shrinking type (components.md Minimum Readable Sizes)" };
+    (WARN_ONLY.has(t.role) ? warns : fails).push(item);
   }
 
   // R7 figure margin drift — catches browser-default 40px figure margins on custom media blocks.

@@ -2,12 +2,16 @@
 
 Shared component spec for both seed templates. Read this when you need to look up a class, a font size, or a hard rule that recurs across recipes. Per-recipe details live in `layout-recipes.md`; per-theme color tokens live in `theme-presets.md`.
 
+## Shared design-system components (optional)
+
+Besides the recipe classes below, the seed templates ship the shared `gz-*` components (cover, stats, quote, process, compare, figure, gallery, ledger, chrome) used by every Guizang skill. Their markup and fields are in `references/gz-components.md` (generated). Use them when a recipe has no class for what you need; text sizes come from the `gz-t-<role>` classes shown there.
+
 ## Font Stacks
 
 Editorial Magazine x E-ink (`template-editorial-card.html`):
 
 - `--serif-zh`: Noto Serif SC, Songti SC, STSong — display titles.
-- `--serif-en`: Playfair Display, italic for subtitles and pull quotes.
+- `--serif-en`: Playfair Display, italic for English subtitles and English words inside pull quotes. Chinese text is never italic.
 - `--sans-zh`: Noto Sans SC, PingFang SC — utility text and fallback; body and lead default to serif-zh in Editorial.
 - `--sans-en`: Inter — Latin body in mixed content.
 - `--mono`: IBM Plex Mono — labels, page metadata, issue strip, captions.
@@ -16,7 +20,7 @@ Swiss International (`template-swiss-card.html`):
 
 - `--sans`: Inter, Helvetica Neue, Helvetica.
 - `--sans-zh`: Noto Sans SC, PingFang SC — Chinese body.
-- `--mono`: IBM Plex Mono — labels, captions, t-meta.
+- `--mono`: JetBrains Mono — labels, captions, t-meta (Swiss uses JetBrains Mono, Editorial uses IBM Plex Mono, same as the PPT skill).
 
 Never load a serif font in the Swiss template. Never let the Editorial template lose its serif display family.
 
@@ -117,14 +121,16 @@ The smoke deck's p2 title `第三次进山,装备比上一次轻 3.4kg` is the 2
 
 A 1080x1440 PNG is usually viewed on a phone at 360-420 logical pixels wide. Anything below the listed size becomes unreadable:
 
-| Role                | Minimum | Notes                                    |
-| ------------------- | ------- | ---------------------------------------- |
-| Body / paragraph    | 28px    | Editorial, Swiss alike                   |
-| Lead                | 30px    | The "1.5x body" guard                    |
-| Caption / kicker    | 20px    | Do not drop below 18px                   |
-| Label / meta strip  | 20px    | Mono only                                |
-| Cell title in grids | 24px    | Matrix / brief cards                     |
-| Number annotation   | 22px    | Stat-card .lbl, ledger .sub              |
+| Role                | Recommended | Hard floor (validator FAIL below) | Notes                       |
+| ------------------- | ----------- | --------------------------------- | --------------------------- |
+| Body / paragraph    | 28px        | 24px                              | Editorial, Swiss alike      |
+| Lead                | 30px        | 26px (WARN only)                  | The "1.5x body" guard       |
+| Caption / kicker    | 20px        | 18px                              |                             |
+| Label / meta strip  | 20px        | 18px                              | Mono only                   |
+| Cell title in grids | 24px        | 20px                              | Matrix / brief cards        |
+| Number annotation   | 22px        | 20px                              | Stat-card .lbl, ledger .sub |
+
+The hard floors are shared with the design system (guizang-design tokens, card medium) and enforced by R4.
 
 If you cannot fit the copy, cut the copy. Do not shrink type.
 
