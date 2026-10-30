@@ -7,9 +7,8 @@ Create a task folder under `local-tests/` by default:
 ```text
 local-tests/<slug>/
   index.html
-  render.cjs
   assets/
-  output/
+  output/        ← written by scripts/render.mjs
 ```
 
 Use descriptive slugs:
@@ -55,9 +54,8 @@ Each frame must have stable dimensions:
   height: 1080px;
 }
 
-.wechat-pair-preview {
-  width: 2400px;
-  min-height: 1180px;
+.pair-preview {
+  width: max-content;   /* 2100 + 1080 + gaps; the renderer widens its window to fit */
 }
 ```
 

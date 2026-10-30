@@ -56,6 +56,9 @@ try {
     if (window.lucide && window.lucide.createIcons) window.lucide.createIcons()
   })
   await page.waitForTimeout(600)
+  // 配对预览（2100 + 1080 + 间距）比默认窗口宽：按页面实际宽度把窗口加宽，元素截图才不会被裁
+  const need = await page.evaluate(() => Math.ceil(document.documentElement.scrollWidth))
+  if (need > 2400) { await page.setViewportSize({ width: need, height: 1600 }); await page.waitForTimeout(300) }
   const list = await page.evaluate(() => [...document.querySelectorAll('.poster')]
     .filter((p) => !p.closest('.pair-preview'))
     .map((p, i) => ({ id: p.id || `poster-${i + 1}`, board: ['xhs', 'square', 'wide'].find((b) => p.classList.contains(b)) })))

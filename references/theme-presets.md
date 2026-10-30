@@ -33,7 +33,7 @@ node <SKILL_ROOT>/scripts/gz-theme.mjs brand "#4D6BFE" --family magazine   # Edi
 node <SKILL_ROOT>/scripts/gz-theme.mjs brand "#4D6BFE" --family swiss      # Swiss
 ```
 
-Paste the printed `[data-theme="brand"]{…}` at the end of the page `<style>` and set `data-theme="brand"`. The script moves the colour into the lightness / chroma range of the hand-tuned palettes and checks WCAG + APCA contrast; when it refuses, it says why — fall back to a preset.
+Paste the printed `[data-theme="brand"]{…}` at the end of the page `<style>` and set `data-theme="brand"`. The script moves the colour into the lightness / chroma range of the hand-tuned palettes and checks WCAG + APCA contrast; when it refuses, it says why — fall back to a preset. Editorial keeps chroma at or below 0.12, so a saturated brand colour comes out noticeably calmer (e.g. #FF2442 → #b75a59, printed in the first comment line); when the brand must stay vivid, use Swiss.
 
 ### Editorial palette values
 
